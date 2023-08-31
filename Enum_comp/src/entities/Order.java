@@ -1,32 +1,36 @@
 package entities;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import entities.entitiens_enum.OrderStatus;
 
 public class Order {
-    private LocalDateTime moment;
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        
+    private Date moment;
     private OrderStatus status;
 
-    List<OrderItem> orderItems = new ArrayList<>();
-    Client client = new Client();
+    private Client client;
+    private List<OrderItem> items = new ArrayList<>();
     
     public Order() {
     }
 
-    public Order(LocalDateTime moment, OrderStatus status, Client client) {
+    public Order(Date moment, OrderStatus status, Client client) {
         this.moment = moment;
         this.status = status;
         this.client = client;
     }
 
-    public LocalDateTime getMoment() {
+    public Date getMoment() {
         return moment;
     }
 
-    public void setMoment(LocalDateTime moment) {
+    public void setMoment(Date moment) {
         this.moment = moment;
     }
 
@@ -38,11 +42,6 @@ public class Order {
         this.status = status;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-
     public Client getClient() {
         return client;
     }
@@ -51,22 +50,44 @@ public class Order {
         this.client = client;
     }
     public void addItem(OrderItem intem){
-        orderItems.add(intem);
+        items.add(intem);
     }
     public void removeItem(OrderItem intem){
-        orderItems.remove(intem);
+        items.remove(intem);
     }
     public Double total(){
         double total =0;
-        for(OrderItem obj : orderItems ){
+        for(OrderItem obj : items ){
             total += obj.subTotal();  
         }
-        return total;
+        return total;    
+    }
+    @Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Order moment: ");
+		sb.append(sdf.format(moment) + "\n");
+		sb.append("Order status: ");
+		sb.append(status + "\n");
+		sb.append("Client: ");
+		sb.append(client + "\n");
+		sb.append("Order items:\n");
+		for (OrderItem item : items) {
+			sb.append(item + "\n");
+		}
+		sb.append("Total price: $");
+		sb.append(String.format("%.2f", total()));
+		return sb.toString();
+	}
+   
+    
+
         
-    }
+    
+ 
+}
 
-
-    }
+    
     
 
     

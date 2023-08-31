@@ -1,19 +1,25 @@
 package entities;
 
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Client {
+
+    private static SimpleDateFormat frmts = new SimpleDateFormat("dd/MM/yyyy");
+
     private String nome;
     private String email;
-    private LocalDate date;
+    private Date date;
+
+    
     
     public Client() {
     }
 
-    public Client(String nome, String email, LocalDate date) {
+    public Client(String nome, String email, Date frmt) {
         this.nome = nome;
         this.email = email;
-        this.date = date;
+        this.date = frmt;
     }
 
     public String getNome() {
@@ -32,13 +38,19 @@ public class Client {
         this.email = email;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return  nome + ", " + email + ", date " + frmts.format(getDate()) ;
+    }
+    
     
 
     
